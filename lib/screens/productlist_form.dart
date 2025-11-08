@@ -63,6 +63,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     if (value == null || value.isEmpty) {
                       return "Nama produk tidak boleh kosong!";
                     }
+                    // Validasi panjang string min/max
+                    if(value.length < 5) {
+                      return "Nama produk minimal 5 karakter!";
+                    }
+                    if (value.length > 50) {
+                      return "Nama produk tidak boleh lebih dari 50 karakter!";
+                    }
                     return null;
                   },
                 ),
@@ -129,6 +136,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return "Isi keterangan produk tidak boleh kosong!";
+                    }
+                    // Validasi panjang string min/max
+                    if (value.length < 10) {
+                      return "Deskripsi minimal 10 karakter!";
+                    }
+                    if (value.length > 500) {
+                      return "Deskripsi tidak boleh lebih dari 500 karakter!";
                     }
                     return null;
                   },
