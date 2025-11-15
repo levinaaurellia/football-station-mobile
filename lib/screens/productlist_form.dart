@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football_station/widgets/left_drawer.dart';
+import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:football_station/screens/menu.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -13,24 +17,35 @@ class _ProductFormPageState extends State<ProductFormPage> {
   String _name = "";
   int _price = 0;
   String _description = "";
-  String _category = "Jersey"; // default
+  String _category = "jersey"; // default
   String _thumbnail = "";
   bool _isFeatured = false;
+  int _stock = 0;
+  String _brand = "adidas";
 
   final List<String> _categories = [
-    'Sepatu',
-    'Jersey',
-    'Bola',
-    'Merchandise'
+    'jersey',
+    'shoes',
+    'ball',
+    'merch'
+  ];
+
+  final List<String> _brands = [
+    'nike',
+    'adidas',
+    'puma',
+    'under_armour',
+    'reebok',
   ];
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Add Product Form',
+            'Create Product Form',
           ),
         ),
         backgroundColor: Colors.indigo,
@@ -165,7 +180,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       .map((cat) => DropdownMenuItem(
                             value: cat,
                             child: Text(
-                                cat[0].toUpperCase() + cat.substring(1)),
+                                cat == 'shoes' ? 'Sepatu' :
+                                cat == 'ball' ? 'Bola' :
+                                cat == 'merch' ? 'Merchandise' :
+                                'Jersey' // default untuk 'jersey'
+                            ),
                           ))
                       .toList(),
                   onChanged: (String? newValue) {
@@ -212,6 +231,66 @@ class _ProductFormPageState extends State<ProductFormPage> {
               ),
 
 
+              // ===Stock===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Jumlah Stok",
+                    labelText: "Jumlah Stok",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  initialValue: _stock.toString(),
+                  onChanged: (String? value){
+                    setState(() {
+                      _stock = int.tryParse(value?? "") ?? 0;
+                    });
+                  },
+                  validator: (String? value){
+                    if (value == null || value.isEmpty) {
+                      return "Stok tidak boleh kosong!";
+                    }
+                    if (int.tryParse(value) == null) {
+                      return "Stok harus berupa angka!";
+                    }
+                    if (int.parse(value) < 0) {
+                      return "Stok tidak boleh negatif!";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+
+
+              // ===Brand===
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: "Brand",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  value: _brand, // Default value
+                  items: _brands
+                      .map((brand) => DropdownMenuItem(
+                    value: brand,
+                    child: Text(brand[0].toUpperCase() + brand.substring(1).replaceAll('_', ' ')),
+                  ))
+                      .toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _brand = newValue!;
+                    });
+                  },
+                ),
+              ),
+
+
               // ===Tombol Save===
               Align(
                 alignment: Alignment.bottomCenter,
@@ -222,38 +301,42 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       backgroundColor:
                           MaterialStateProperty.all(Colors.indigo),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Produk berhasil tersimpan!'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Nama: $_name'),
-                                    Text('Harga: $_price'),
-                                    Text('Deskripsi Produk: $_description'),
-                                    Text('Kategori: $_category'),
-                                    Text('Thumbnail: $_thumbnail'),
-                                    Text('Unggulan: ${_isFeatured ? "Ya" : "Tidak"}'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        // To connect Android emulator with Django on localhost, use URL http://10.0.2.2/
+                        // If you using chrome,  use URL http://localhost:8000
+
+                        final response = await request.postJson(
+                          "http://localhost:8000/create-flutter/",
+                          jsonEncode({
+                            "name": _name,
+                            "description": _description,
+                            "price": _price,
+                            "stock": _stock,
+                            "brand": _brand,
+                            "thumbnail": _thumbnail,
+                            "category": _category,
+                            "is_featured": _isFeatured,
+                          }),
                         );
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Product successfully saved!"),
+                            ));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyHomePage()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Something went wrong, please try again."),
+                            ));
+                          }
+                        }
                       }
                     },
                     child: const Text(

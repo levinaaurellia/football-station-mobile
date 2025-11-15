@@ -15,7 +15,7 @@ class MyHomePage extends StatelessWidget {
   final List<ItemHomepage> items = [
     ItemHomepage("All Products", Icons.grid_view, const Color(0xFF1E88E5)),
     ItemHomepage("My Products", Icons.inventory_2, const Color(0xFF2E7D32)),
-    ItemHomepage("Add Product", Icons.add_box, const Color(0xFFE53935)),
+    ItemHomepage("Create Product", Icons.add_box, const Color(0xFFE53935)),
   ];
 
   @override

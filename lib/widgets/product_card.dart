@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_station/screens/menu.dart';
 import 'package:football_station/screens/productlist_form.dart';
+import 'package:football_station/screens/product_entry_list.dart';
 
 
 /// Kartu tombol dengan ikon
@@ -21,9 +22,16 @@ class ItemCard extends StatelessWidget {
                 content: Text("Kamu telah menekan tombol ${item.name}!")));
 
           // Navigate ke route yang sesuai (tergantung jenis tombol)
-          if (item.name == "Add Product") {
+          if (item.name == "Create Product") {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const ProductFormPage()));
+          } else if (item.name == "All Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ProductEntryListPage()
+              ),
+            );
           }
         },
         child: Container(
