@@ -33,7 +33,7 @@ class ProductEntryCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: Image.network(
-                    'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(product.fields.thumbnail)}',
+                    'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(product.thumbnail)}',
                     height: 150,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -48,7 +48,7 @@ class ProductEntryCard extends StatelessWidget {
 
                 // Product name
                 Text(
-                  product.fields.name,
+                  product.name,
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -56,23 +56,34 @@ class ProductEntryCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
 
+                // Price
+                Text(
+                  'Rp ${product.price}',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.green[700],
+                  ),
+                ),
+                const SizedBox(height: 6),
+
                 // Category
-                Text('Category: ${product.fields.category}'),
+                Text('Category: ${product.category}'),
                 const SizedBox(height: 6),
 
                 // Brand
-                Text('Brand: ${product.fields.brand}'),
+                Text('Brand: ${product.brand}'),
                 const SizedBox(height: 6),
 
                 // Stock
-                Text('Stock: ${product.fields.stock}'),
+                Text('Stock: ${product.stock}'),
                 const SizedBox(height: 6),
 
                 // Description preview
                 Text(
-                  product.fields.description.length > 100
-                      ? '${product.fields.description.substring(0, 100)}...'
-                      : product.fields.description,
+                  product.description.length > 100
+                      ? '${product.description.substring(0, 100)}...'
+                      : product.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.black54),
@@ -80,7 +91,7 @@ class ProductEntryCard extends StatelessWidget {
                 const SizedBox(height: 6),
 
                 // Featured indicator
-                if (product.fields.isFeatured)
+                if (product.isFeatured)
                   const Text(
                     'Featured',
                     style: TextStyle(

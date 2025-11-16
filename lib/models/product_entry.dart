@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final productEntry = productEntryFromJson(jsonString);
-
 import 'dart:convert';
 
 List<ProductEntry> productEntryFromJson(String str) => List<ProductEntry>.from(json.decode(str).map((x) => ProductEntry.fromJson(x)));
@@ -9,30 +5,7 @@ List<ProductEntry> productEntryFromJson(String str) => List<ProductEntry>.from(j
 String productEntryToJson(List<ProductEntry> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ProductEntry {
-  String model;
-  String pk;
-  Fields fields;
-
-  ProductEntry({
-    required this.model,
-    required this.pk,
-    required this.fields,
-  });
-
-  factory ProductEntry.fromJson(Map<String, dynamic> json) => ProductEntry(
-    model: json["model"],
-    pk: json["pk"],
-    fields: Fields.fromJson(json["fields"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "model": model,
-    "pk": pk,
-    "fields": fields.toJson(),
-  };
-}
-
-class Fields {
+  String id;
   String name;
   int price;
   String description;
@@ -42,8 +15,10 @@ class Fields {
   int stock;
   String brand;
   int? user;
+  String? userUsername;
 
-  Fields({
+  ProductEntry({
+    required this.id,
     required this.name,
     required this.price,
     required this.description,
@@ -53,9 +28,12 @@ class Fields {
     required this.stock,
     required this.brand,
     required this.user,
+    this.userUsername,
   });
 
-  factory Fields.fromJson(Map<String, dynamic> json) => Fields(
+
+  factory ProductEntry.fromJson(Map<String, dynamic> json) => ProductEntry(
+    id: json["id"],
     name: json["name"],
     price: json["price"],
     description: json["description"],
@@ -64,10 +42,12 @@ class Fields {
     isFeatured: json["is_featured"],
     stock: json["stock"],
     brand: json["brand"],
-    user: json["user"],
+    user: json["user_id"],
+    userUsername: json["user_username"],
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "name": name,
     "price": price,
     "description": description,
@@ -76,6 +56,7 @@ class Fields {
     "is_featured": isFeatured,
     "stock": stock,
     "brand": brand,
-    "user": user,
+    "user_id": user,
+    "user_username": userUsername,
   };
 }

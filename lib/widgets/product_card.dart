@@ -29,10 +29,18 @@ class ItemCard extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const ProductEntryListPage()
+                  builder: (context) => const ProductEntryListPage(filter: "all")
+              ),
+            );
+          } else if (item.name == "My Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ProductEntryListPage(filter: "my")
               ),
             );
           }
+
         },
         child: Container(
           padding: const EdgeInsets.all(8),

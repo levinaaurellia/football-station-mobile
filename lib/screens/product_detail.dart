@@ -19,9 +19,9 @@ class ProductDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Thumbnail image
-            if (product.fields.thumbnail.isNotEmpty)
+            if (product.thumbnail.isNotEmpty)
               Image.network(
-                'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(product.fields.thumbnail)}',
+                'http://localhost:8000/proxy-image/?url=${Uri.encodeComponent(product.thumbnail)}',
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
@@ -40,7 +40,7 @@ class ProductDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Featured badge
-                  if (product.fields.isFeatured)
+                  if (product.isFeatured)
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12.0, vertical: 6.0),
@@ -60,7 +60,7 @@ class ProductDetailPage extends StatelessWidget {
 
                   // Product name
                   Text(
-                    product.fields.name,
+                    product.name,
                     style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class ProductDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
 
-                  // Category and Date
+                  // Category and Brand
                   Row(
                     children: [
                       Container(
@@ -79,7 +79,7 @@ class ProductDetailPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: Text(
-                          product.fields.category.toUpperCase(),
+                          product.category.toUpperCase(),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        'Brand: ${product.fields.brand[0].toUpperCase() + product.fields.brand.substring(1)}',
+                        'Brand: ${product.brand[0].toUpperCase() + product.brand.substring(1)}',
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],
@@ -105,7 +105,7 @@ class ProductDetailPage extends StatelessWidget {
                       Icon(Icons.sell_outlined, size: 16, color: Colors.green[700]),
                       const SizedBox(width: 4),
                       Text(
-                        'Rp ${product.fields.price}',
+                        'Rp ${product.price}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[800],
@@ -118,7 +118,7 @@ class ProductDetailPage extends StatelessWidget {
                       Icon(Icons.inventory_2_outlined, size: 16, color: Colors.grey[600]),
                       const SizedBox(width: 4),
                       Text(
-                        'Stock: ${product.fields.stock}',
+                        'Stock: ${product.stock}',
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey[600],
@@ -131,12 +131,23 @@ class ProductDetailPage extends StatelessWidget {
 
                   // description
                   Text(
-                    product.fields.description,
+                    product.description,
                     style: const TextStyle(
                       fontSize: 16.0,
                       height: 1.6,
                     ),
                     textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(height: 24),
+
+                  // user
+                  Text(
+                    'Added by: ${product.userUsername ?? "Admin"}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                   const SizedBox(height: 24),
                 ],
