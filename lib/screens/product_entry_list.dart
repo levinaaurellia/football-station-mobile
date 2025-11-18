@@ -19,9 +19,9 @@ class _ProductEntryListPageState extends State<ProductEntryListPage> {
     // To connect Android emulator with Django on localhost, use URL http://10.0.2.2/
     // If you using chrome,  use URL http://localhost:8000
 
-    String url = 'http://localhost:8000/get-products/';
+    String url = 'https://levina-aurellia-footballstation.pbp.cs.ui.ac.id/get-products/';
     if (widget.filter == "my") {
-      url = 'http://localhost:8000/get-products/?filter=my';
+      url = 'https://levina-aurellia-footballstation.pbp.cs.ui.ac.id/get-products/?filter=my';
     }
     final response = await request.get(url);
 
