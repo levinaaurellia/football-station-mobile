@@ -13,9 +13,14 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: item.color,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
+        topRight: Radius.circular(5),
+        bottomLeft: Radius.circular(5),
+      ),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
@@ -48,16 +53,28 @@ class ItemCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
                     item.icon,
                     color: Colors.white,
-                    size: 30
+                    size: 40.0,
+                  ),
                 ),
-                const Padding(padding: EdgeInsets.all(3)),
+                const SizedBox(height: 10),
+
                 Text(
-                  item.name,
+                  item.name.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),

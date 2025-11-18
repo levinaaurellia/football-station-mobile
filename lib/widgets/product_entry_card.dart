@@ -19,88 +19,98 @@ class ProductEntryCard extends StatelessWidget {
         onTap: onTap,
         child: Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(15.0),
             side: BorderSide(color: Colors.grey.shade300),
           ),
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Thumbnail
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Image.network(
-                    'https://levina-aurellia-footballstation.pbp.cs.ui.ac.id/proxy-image/?url=${Uri.encodeComponent(product.thumbnail)}',
-                    height: 150,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
+          elevation: 6,
+          color: Colors.white,
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                left: BorderSide(
+                  color: Color(0xFF0D47A1), // Warna Tim Utama
+                  width: 8.0, // Garis tebal di kiri
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Thumbnail
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Image.network(
+                      'https://levina-aurellia-footballstation.pbp.cs.ui.ac.id/proxy-image/?url=${Uri.encodeComponent(product.thumbnail)}',
                       height: 150,
-                      color: Colors.grey[300],
-                      child: const Center(child: Icon(Icons.broken_image)),
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        height: 150,
+                        color: Colors.grey[300],
+                        child: const Center(child: Icon(Icons.broken_image)),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
-                // Product name
-                Text(
-                  product.name,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                  // Product name
+                  Text(
+                    product.name,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 6),
+                  const SizedBox(height: 6),
 
-                // Price
-                Text(
-                  'Rp ${product.price}',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.green[700],
-                  ),
-                ),
-                const SizedBox(height: 6),
-
-                // Category
-                Text('Category: ${product.category}'),
-                const SizedBox(height: 6),
-
-                // Brand
-                Text('Brand: ${product.brand}'),
-                const SizedBox(height: 6),
-
-                // Stock
-                Text('Stock: ${product.stock}'),
-                const SizedBox(height: 6),
-
-                // Description preview
-                Text(
-                  product.description.length > 100
-                      ? '${product.description.substring(0, 100)}...'
-                      : product.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.black54),
-                ),
-                const SizedBox(height: 6),
-
-                // Featured indicator
-                if (product.isFeatured)
-                  const Text(
-                    'Featured',
+                  // Price
+                  Text(
+                    'Rp ${product.price}',
                     style: TextStyle(
-                        color: Colors.amber,
-                        fontWeight: FontWeight.bold
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.green[700],
                     ),
                   ),
+                  const SizedBox(height: 6),
 
-              ],
+                  // Category
+                  Text('Category: ${product.category}'),
+                  const SizedBox(height: 6),
+
+                  // Brand
+                  Text('Brand: ${product.brand}'),
+                  const SizedBox(height: 6),
+
+                  // Stock
+                  Text('Stock: ${product.stock}'),
+                  const SizedBox(height: 6),
+
+                  // Description preview
+                  Text(
+                    product.description.length > 100
+                        ? '${product.description.substring(0, 100)}...'
+                        : product.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                  const SizedBox(height: 6),
+
+                  // Featured indicator
+                  if (product.isFeatured)
+                    const Text(
+                      'Featured',
+                      style: TextStyle(
+                          color: Colors.amber,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

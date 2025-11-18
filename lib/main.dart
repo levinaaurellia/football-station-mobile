@@ -22,8 +22,38 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Football Station',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-              .copyWith(secondary: Colors.blueAccent[400]),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF0D47A1),
+            primary: const Color(0xFF0D47A1),
+            secondary: const Color(0xFF2E7D32),
+            surface: const Color(0xFFF5F5F5),
+          ),
+
+
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xFF0D47A1),
+              foregroundColor: Colors.white,
+              centerTitle: true,
+              elevation: 4,
+              titleTextStyle: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto',
+                letterSpacing: 1.5,
+              )
+          ),
+
+          // Bikin Text Input jadi bulat-bulat
+          inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          ),
         ),
         home: const LoginPage(),
       ),
